@@ -1,0 +1,25 @@
+{
+    "name": "hexlet/code",
+    "description": "Generate diff between two configuration files",
+    "version": "0.1.0",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Hexlet\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Elena",
+            "email": "utv.header@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "docopt/docopt": "^1.0"
+    },
+    "bin": [
+        "gendiff"
+    ]
+}
