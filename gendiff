@@ -9,10 +9,12 @@ Generate diff
 Usage:
   gendiff (-h | --help)
   gendiff (-v | --version)
+  gendiff [--format <fmt>] <firstFile> <secondFile>
 
 Options:
-  -h --help     Show this screen
-  -v --version  Show version
+  -h --help         Show this screen
+  -v --version      Show version
+  --format <fmt>    Report format [default: stylish]
 DOC;
 
 try {
@@ -34,5 +36,23 @@ if ($arguments['--version']) {
     exit(0);
 }
 
-echo $doc . PHP_EOL;
+$firstFile  = $arguments['<firstFile>'];
+$secondFile = $arguments['<secondFile>'];
+$format     = $arguments['--format'] ?? 'stylish';
+
+// if (!file_exists($firstFile)) {
+//     fwrite(STDERR, "Error: File '$firstFile' does not exist." . PHP_EOL);
+//     exit(1);
+// }
+// if (!file_exists($secondFile)) {
+//     fwrite(STDERR, "Error: File '$secondFile' does not exist." . PHP_EOL);
+//     exit(1);
+// }
+
+// Здесь будет логика сравнения (пока заглушка)
+// echo "Comparing:\n  $firstFile\n  $secondFile\nFormat: $format\n";
+
+echo "First file: $firstFile\n";
+echo "Second file: $secondFile\n";
+echo "Format: $format\n";
 exit(0);
