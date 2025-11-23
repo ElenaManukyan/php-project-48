@@ -2,6 +2,7 @@
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
+use Hexlet\Code\Parser;
 
 $doc = <<<DOC
 Generate diff
@@ -40,17 +41,29 @@ $firstFile  = $arguments['<firstFile>'];
 $secondFile = $arguments['<secondFile>'];
 $format     = $arguments['--format'] ?? 'stylish';
 
-// if (!file_exists($firstFile)) {
-//     fwrite(STDERR, "Error: File '$firstFile' does not exist." . PHP_EOL);
-//     exit(1);
-// }
-// if (!file_exists($secondFile)) {
-//     fwrite(STDERR, "Error: File '$secondFile' does not exist." . PHP_EOL);
-//     exit(1);
-// }
+// Парсинг первого файла
+try {
+  $data1 = Parser::parse($firstFile);
+  echo "=== First file ($firstFile) ===" . PHP_EOL;
+  print_r($data1);
+  echo PHP_EOL;
+} catch (\Exception $e) {
+  fwrite(STDERR, "Error: " . $e->getMessage() . PHP_EOL);
+  exit(1);
+}
 
-// Здесь будет логика сравнения (пока заглушка)
-// echo "Comparing:\n  $firstFile\n  $secondFile\nFormat: $format\n";
+// Парсинг второго файла
+try {
+  $data2 = Parser::parse($secondFile);
+  echo "=== Second file ($secondFile) ===" . PHP_EOL;
+  print_r($data2);
+  echo PHP_EOL;
+} catch (\Exception $e) {
+  fwrite(STDERR, "Error: " . $e->getMessage() . PHP_EOL);
+  exit(1);
+}
+
+exit(0);
 
 echo "First file: $firstFile\n";
 echo "Second file: $secondFile\n";
