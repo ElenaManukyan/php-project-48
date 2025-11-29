@@ -1,5 +1,55 @@
-### Hexlet tests and linter status:
-[![Actions Status](https://github.com/ElenaManukyan/php-project-48/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/ElenaManukyan/php-project-48/actions)
+# Gendiff
 
-## Comparison of flat files (JSON):
-[![asciicast](https://asciinema.org/a/yAgglQUAOVi6kd4K0zpKwfUD1.svg)](https://asciinema.org/a/yAgglQUAOVi6kd4K0zpKwfUD1)
+[![Actions Status](https://github.com/ElenaManukyan/php-project-48/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/ElenaManukyan/php-project-48/actions)
+[![PHP CI](https://github.com/ElenaManukyan/php-project-48/actions/workflows/ci.yml/badge.svg)](https://github.com/ElenaManukyan/php-project-48/actions/workflows/ci.yml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ElenaManukyan_php-project-48&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=ElenaManukyan_php-project-48)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ElenaManukyan_php-project-48&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ElenaManukyan_php-project-48)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ElenaManukyan_php-project-48&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ElenaManukyan_php-project-48)
+
+## Описание
+
+Gendiff — утилита для сравнения двух конфигурационных файлов и вывода различий между ними.
+
+## Установка
+
+```bash
+git clone https://github.com/ElenaManukyan/php-project-48.git
+cd php-project-48
+make install
+```
+
+## Использование
+
+### Как CLI-утилита
+
+```bash
+./gendiff file1.json file2.json
+```
+
+### Как библиотека
+
+```php
+<?php
+
+use function Differ\Differ\genDiff;
+
+$diff = genDiff($pathToFile1, $pathToFile2);
+print_r($diff);
+```
+
+## Пример работы
+
+```
+{
+  - follow: false
+    host: hexlet.io
+  - proxy: 123.234.53.22
+  - timeout: 50
+  + timeout: 20
+  + verbose: true
+}
+```
+
+## Asciinema демо
+
+[![asciicast](https://asciinema.org/a/YOUR_ASCIINEMA_ID.svg)](https://asciinema.org/a/YOUR_ASCIINEMA_ID)
