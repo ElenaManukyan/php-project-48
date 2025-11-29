@@ -2,7 +2,8 @@
 <?php
 
 require_once __DIR__ . '/vendor/autoload.php';
-use Hexlet\Code\Parser;
+
+use function Differ\Differ\genDiff;
 
 $doc = <<<DOC
 Generate diff
@@ -39,33 +40,6 @@ if ($arguments['--version']) {
 
 $firstFile  = $arguments['<firstFile>'];
 $secondFile = $arguments['<secondFile>'];
-$format     = $arguments['--format'] ?? 'stylish';
 
-// Парсинг первого файла
-try {
-  $data1 = Parser::parse($firstFile);
-  echo "=== First file ($firstFile) ===" . PHP_EOL;
-  print_r($data1);
-  echo PHP_EOL;
-} catch (\Exception $e) {
-  fwrite(STDERR, "Error: " . $e->getMessage() . PHP_EOL);
-  exit(1);
-}
-
-// Парсинг второго файла
-try {
-  $data2 = Parser::parse($secondFile);
-  echo "=== Second file ($secondFile) ===" . PHP_EOL;
-  print_r($data2);
-  echo PHP_EOL;
-} catch (\Exception $e) {
-  fwrite(STDERR, "Error: " . $e->getMessage() . PHP_EOL);
-  exit(1);
-}
-
-exit(0);
-
-echo "First file: $firstFile\n";
-echo "Second file: $secondFile\n";
-echo "Format: $format\n";
-exit(0);
+$diff = genDiff($firstFile, $secondFile);
+echo $diff . PHP_EOL;
