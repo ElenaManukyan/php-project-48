@@ -1,4 +1,4 @@
-# 🔄 Gendiff — Configuration Files Difference Generator
+# 🔄 Gendiff - Configuration Files Difference Generator [PHP edition]
 
 [![Actions Status](https://github.com/ElenaManukyan/php-project-48/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/ElenaManukyan/php-project-48/actions)
 [![PHP CI](https://github.com/ElenaManukyan/php-project-48/actions/workflows/ci.yml/badge.svg)](https://github.com/ElenaManukyan/php-project-48/actions/workflows/ci.yml)
