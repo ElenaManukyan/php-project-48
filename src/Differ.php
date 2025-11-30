@@ -15,6 +15,13 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $formatName = 
     $content1 = file_get_contents($absolutePath1);
     $content2 = file_get_contents($absolutePath2);
 
+    if ($content1 === false) {
+        throw new \Exception("Cannot read file: {$absolutePath1}");
+    }
+    if ($content2 === false) {
+        throw new \Exception("Cannot read file: {$absolutePath2}");
+    }
+
     $format1 = getFormat($absolutePath1);
     $format2 = getFormat($absolutePath2);
 
