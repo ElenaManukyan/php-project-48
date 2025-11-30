@@ -57,3 +57,5 @@ print_r($diff);
 [![asciicast](https://asciinema.org/a/WNKsrn6hsMu7jMpAgdkAH01pV.svg)](https://asciinema.org/a/WNKsrn6hsMu7jMpAgdkAH01pV)
 ### Recursive comparison (JSON + YML)
 [![asciicast](https://asciinema.org/a/K3yo5M8TL5iT5HW0TJtLcbc3E.svg)](https://asciinema.org/a/K3yo5M8TL5iT5HW0TJtLcbc3E)
+### Flat format
+[![asciicast](https://asciinema.org/a/XUFs5iD8sVuEYXsrLUgD231hR.svg)](https://asciinema.org/a/XUFs5iD8sVuEYXsrLUgD231hR)
