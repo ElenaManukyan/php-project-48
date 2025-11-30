@@ -50,8 +50,10 @@ print_r($diff);
 }
 ```
 
-## Asciinema демо
+## Asciinema demo
 ### Comparison of flat files (JSON) + an example of the utility's capabilities
 [![asciicast](https://asciinema.org/a/yAgglQUAOVi6kd4K0zpKwfUD1.svg)](https://asciinema.org/a/yAgglQUAOVi6kd4K0zpKwfUD1)
 ### Comparison of flat files (yaml)
 [![asciicast](https://asciinema.org/a/WNKsrn6hsMu7jMpAgdkAH01pV.svg)](https://asciinema.org/a/WNKsrn6hsMu7jMpAgdkAH01pV)
+### Recursive comparison (JSON + YML)
+[![asciicast](https://asciinema.org/a/K3yo5M8TL5iT5HW0TJtLcbc3E.svg)](https://asciinema.org/a/K3yo5M8TL5iT5HW0TJtLcbc3E)
