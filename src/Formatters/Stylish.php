@@ -28,16 +28,16 @@ function formatNode(array $node, int $depth): string
     $bracketIndent = makeIndent($depth, false);
 
     return match ($type) {
-        'nested' => "{$indent}  {$key}: {\n" . 
-                    formatDiff($node['children'], $depth + 1) . 
+        'nested' => "{$indent}  {$key}: {\n" .
+                    formatDiff($node['children'], $depth + 1) .
                     "\n{$bracketIndent}}",
-        
+
         'unchanged' => "{$indent}  {$key}: " . formatValue($node['value'], $depth),
-        
+
         'added' => "{$indent}+ {$key}: " . formatValue($node['value'], $depth),
-        
+
         'removed' => "{$indent}- {$key}: " . formatValue($node['value'], $depth),
-        
+
         'changed' => "{$indent}- {$key}: " . formatValue($node['oldValue'], $depth) . "\n" .
                      "{$indent}+ {$key}: " . formatValue($node['newValue'], $depth),
     };
