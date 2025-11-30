@@ -23,7 +23,7 @@ $arguments = \Docopt::handle($doc);
 
 $firstFile  = $arguments['<firstFile>'];
 $secondFile = $arguments['<secondFile>'];
-$format     = $arguments['--format'] ?? 'stylish';
+$format     = $arguments['--format'];
 
 $diff = genDiff($firstFile, $secondFile, $format);
 echo $diff . PHP_EOL;

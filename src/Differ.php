@@ -5,7 +5,7 @@ namespace Differ\Differ;
 use function Functional\sort;
 use function Differ\Parsers\parse;
 use function Differ\Parsers\getFormat;
-use function Differ\Formatters\Stylish\format;
+use function Differ\Formatters\format;
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $formatName = 'stylish'): string
 {
@@ -23,7 +23,7 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $formatName = 
 
     $diff = buildDiff($data1, $data2);
 
-    return format($diff);
+    return format($diff, $formatName);
 }
 
 function getAbsolutePath(string $path): string
