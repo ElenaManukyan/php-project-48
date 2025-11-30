@@ -18,4 +18,3 @@ function getFormat(string $filePath): string
     $extension = pathinfo($filePath, PATHINFO_EXTENSION);
     return $extension;
 }
-
