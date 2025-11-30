@@ -14,8 +14,12 @@ function formatDiff(array $diff, array $path): array
         return formatNode($node, $path);
     }, $diff);
 
-    return array_merge(...array_map(fn($item) => is_array($item) ? $item : [$item], 
-        array_filter($lines, fn($line) => $line !== null && $line !== '')));
+    return array_merge(
+        ...array_map(
+            fn($item) => is_array($item) ? $item : [$item],
+            array_filter($lines, fn($line) => $line !== null && $line !== '')
+        )
+    );
 }
 
 function formatNode(array $node, array $path): mixed
@@ -30,7 +34,7 @@ function formatNode(array $node, array $path): mixed
         'unchanged' => null,
         'added' => "Property '{$propertyPath}' was added with value: " . formatValue($node['value']),
         'removed' => "Property '{$propertyPath}' was removed",
-        'changed' => "Property '{$propertyPath}' was updated. From " . 
+        'changed' => "Property '{$propertyPath}' was updated. From " .
                      formatValue($node['oldValue']) . " to " . formatValue($node['newValue']),
     };
 }
