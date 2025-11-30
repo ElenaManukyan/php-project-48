@@ -19,27 +19,11 @@ Options:
   --format <fmt>    Report format [default: stylish]
 DOC;
 
-try {
-    $arguments = \Docopt::handle($doc);
-} catch (Exception $e) {
-    fwrite(STDERR, "Error: " . $e->getMessage() . PHP_EOL);
-    exit(1);
-}
-
-if ($arguments['--help']) {
-    echo $doc . PHP_EOL;
-    exit(0);
-}
-
-if ($arguments['--version']) {
-    $composer = json_decode(file_get_contents(__DIR__ . '/composer.json'), true);
-    $version = $composer['version'] ?? '0.1.0';
-    echo "gendiff $version" . PHP_EOL;
-    exit(0);
-}
+$arguments = \Docopt::handle($doc);
 
 $firstFile  = $arguments['<firstFile>'];
 $secondFile = $arguments['<secondFile>'];
+$format     = $arguments['--format'] ?? 'stylish';
 
-$diff = genDiff($firstFile, $secondFile);
+$diff = genDiff($firstFile, $secondFile, $format);
 echo $diff . PHP_EOL;

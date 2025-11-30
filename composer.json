@@ -10,7 +10,8 @@
         },
         "files": [
             "src/Differ.php",
-            "src/Parser.php"
+            "src/Parser.php",
+            "src/Formatters/Stylish.php"
         ]
     },
     "autoload-dev": {

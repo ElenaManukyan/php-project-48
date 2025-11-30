@@ -5,8 +5,9 @@ namespace Differ\Differ;
 use function Functional\sort;
 use function Differ\Parsers\parse;
 use function Differ\Parsers\getFormat;
+use function Differ\Formatters\Stylish\format;
 
-function genDiff(string $pathToFile1, string $pathToFile2): string
+function genDiff(string $pathToFile1, string $pathToFile2, string $formatName = 'stylish'): string
 {
     $absolutePath1 = getAbsolutePath($pathToFile1);
     $absolutePath2 = getAbsolutePath($pathToFile2);
@@ -17,12 +18,12 @@ function genDiff(string $pathToFile1, string $pathToFile2): string
     $format1 = getFormat($absolutePath1);
     $format2 = getFormat($absolutePath2);
 
-    $data1 = (array) parse($content1, $format1);
-    $data2 = (array) parse($content2, $format2);
+    $data1 = parse($content1, $format1);
+    $data2 = parse($content2, $format2);
 
     $diff = buildDiff($data1, $data2);
 
-    return formatDiff($diff);
+    return format($diff);
 }
 
 function getAbsolutePath(string $path): string
@@ -33,13 +34,23 @@ function getAbsolutePath(string $path): string
     return getcwd() . '/' . $path;
 }
 
+function isAssociativeArray(mixed $value): bool
+{
+    if (!is_array($value)) {
+        return false;
+    }
+    if ($value === []) {
+        return false;
+    }
+    return array_keys($value) !== range(0, count($value) - 1);
+}
+
 function buildDiff(array $data1, array $data2): array
 {
     $allKeys = array_unique(array_merge(array_keys($data1), array_keys($data2)));
-
     $sortedKeys = sort($allKeys, fn($a, $b) => strcmp($a, $b), false);
 
-    $diff = array_map(function ($key) use ($data1, $data2) {
+    return array_map(function ($key) use ($data1, $data2) {
         $inFirst = array_key_exists($key, $data1);
         $inSecond = array_key_exists($key, $data2);
 
@@ -51,49 +62,26 @@ function buildDiff(array $data1, array $data2): array
             return ['key' => $key, 'type' => 'added', 'value' => $data2[$key]];
         }
 
-        if ($data1[$key] === $data2[$key]) {
-            return ['key' => $key, 'type' => 'unchanged', 'value' => $data1[$key]];
+        $value1 = $data1[$key];
+        $value2 = $data2[$key];
+
+        if (isAssociativeArray($value1) && isAssociativeArray($value2)) {
+            return [
+                'key' => $key,
+                'type' => 'nested',
+                'children' => buildDiff($value1, $value2)
+            ];
+        }
+
+        if ($value1 === $value2) {
+            return ['key' => $key, 'type' => 'unchanged', 'value' => $value1];
         }
 
         return [
             'key' => $key,
             'type' => 'changed',
-            'oldValue' => $data1[$key],
-            'newValue' => $data2[$key]
+            'oldValue' => $value1,
+            'newValue' => $value2
         ];
     }, $sortedKeys);
-
-    return $diff;
-}
-
-function formatValue(mixed $value): string
-{
-    if (is_bool($value)) {
-        return $value ? 'true' : 'false';
-    }
-    if (is_null($value)) {
-        return 'null';
-    }
-    return (string) $value;
-}
-
-function formatDiff(array $diff): string
-{
-    if (empty($diff)) {
-        return "{\n}";
-    }
-
-    $lines = array_map(function ($item) {
-        $key = $item['key'];
-
-        return match ($item['type']) {
-            'removed' => "  - {$key}: " . formatValue($item['value']),
-            'added' => "  + {$key}: " . formatValue($item['value']),
-            'unchanged' => "    {$key}: " . formatValue($item['value']),
-            'changed' => "  - {$key}: " . formatValue($item['oldValue']) . "\n" .
-                         "  + {$key}: " . formatValue($item['newValue']),
-        };
-    }, $diff);
-
-    return "{\n" . implode("\n", $lines) . "\n}";
 }
