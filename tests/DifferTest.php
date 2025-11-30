@@ -36,6 +36,8 @@ class DifferTest extends TestCase
             'stylish yaml' => ['file1_nested.yml', 'file2_nested.yml', 'stylish', 'expected_nested.txt'],
             'plain json' => ['file1_nested.json', 'file2_nested.json', 'plain', 'expected_plain.txt'],
             'plain yaml' => ['file1_nested.yml', 'file2_nested.yml', 'plain', 'expected_plain.txt'],
+            'json json' => ['file1_nested.json', 'file2_nested.json', 'json', 'expected_json.json'],
+            'json yaml' => ['file1_nested.yml', 'file2_nested.yml', 'json', 'expected_json.json'],
         ];
     }
 }
