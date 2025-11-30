@@ -59,3 +59,5 @@ print_r($diff);
 [![asciicast](https://asciinema.org/a/K3yo5M8TL5iT5HW0TJtLcbc3E.svg)](https://asciinema.org/a/K3yo5M8TL5iT5HW0TJtLcbc3E)
 ### Flat format
 [![asciicast](https://asciinema.org/a/XUFs5iD8sVuEYXsrLUgD231hR.svg)](https://asciinema.org/a/XUFs5iD8sVuEYXsrLUgD231hR)
+### Output in JSON
+[![asciicast](https://asciinema.org/a/6TSx2pGcS5P4GGmh10GaJ3jrc.svg)](https://asciinema.org/a/6TSx2pGcS5P4GGmh10GaJ3jrc)
