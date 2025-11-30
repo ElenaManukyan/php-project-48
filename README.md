@@ -51,5 +51,7 @@ print_r($diff);
 ```
 
 ## Asciinema демо
-
+### Comparison of flat files (JSON) + an example of the utility's capabilities
 [![asciicast](https://asciinema.org/a/YOUR_ASCIINEMA_ID.svg)](https://asciinema.org/a/YOUR_ASCIINEMA_ID)
+### Comparison of flat files (yaml)
+[![asciicast](https://asciinema.org/a/WNKsrn6hsMu7jMpAgdkAH01pV.svg)](https://asciinema.org/a/WNKsrn6hsMu7jMpAgdkAH01pV)
