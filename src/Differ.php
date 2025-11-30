@@ -3,14 +3,22 @@
 namespace Differ\Differ;
 
 use function Functional\sort;
+use function Differ\Parsers\parse;
+use function Differ\Parsers\getFormat;
 
 function genDiff(string $pathToFile1, string $pathToFile2): string
 {
     $absolutePath1 = getAbsolutePath($pathToFile1);
     $absolutePath2 = getAbsolutePath($pathToFile2);
 
-    $data1 = json_decode(file_get_contents($absolutePath1), true);
-    $data2 = json_decode(file_get_contents($absolutePath2), true);
+    $content1 = file_get_contents($absolutePath1);
+    $content2 = file_get_contents($absolutePath2);
+
+    $format1 = getFormat($absolutePath1);
+    $format2 = getFormat($absolutePath2);
+
+    $data1 = (array) parse($content1, $format1);
+    $data2 = (array) parse($content2, $format2);
 
     $diff = buildDiff($data1, $data2);
 

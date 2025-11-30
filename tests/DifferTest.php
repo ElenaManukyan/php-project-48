@@ -53,4 +53,13 @@ class DifferTest extends TestCase
         unlink($emptyFile1);
         unlink($emptyFile2);
     }
+
+    public function testGenDiffFlatYaml(): void
+    {
+        $file1 = $this->getFixturePath('file1.yml');
+        $file2 = $this->getFixturePath('file2.yml');
+        $expected = $this->getFixtureContent('expected_flat.txt');
+
+        $this->assertEquals($expected, genDiff($file1, $file2));
+    }
 }

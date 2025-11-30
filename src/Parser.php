@@ -1,28 +1,21 @@
 <?php
 
-namespace Hexlet\Code;
+namespace Differ\Parsers;
 
-class Parser
+use Symfony\Component\Yaml\Yaml;
+
+function parse(string $content, string $format): array
 {
-    public static function parse(string $filePath)
-    {
-        if (!file_exists($filePath)) {
-            throw new \Exception("File '$filePath' does not exist.");
-        }
-
-        $fileContent = file_get_contents($filePath);
-
-        if ($fileContent === false) {
-            throw new \Exception("Cannot read file '$filePath'.");
-        }
-
-        $data = json_decode($fileContent);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            $errorMessage = json_last_error_msg();
-            throw new \Exception("Invalid JSON in file '$filePath': $errorMessage");
-        }
-
-        return $data;
-    }
+    return match ($format) {
+        'json' => json_decode($content, true),
+        'yml', 'yaml' => Yaml::parse($content),
+        default => throw new \Exception("Unknown format: {$format}")
+    };
 }
+
+function getFormat(string $filePath): string
+{
+    $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+    return $extension;
+}
+
