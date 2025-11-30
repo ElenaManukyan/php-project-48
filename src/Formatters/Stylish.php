@@ -40,6 +40,8 @@ function formatNode(array $node, int $depth): string
 
         'changed' => "{$indent}- {$key}: " . formatValue($node['oldValue'], $depth) . "\n" .
                      "{$indent}+ {$key}: " . formatValue($node['newValue'], $depth),
+
+        default => throw new \Exception("Unknown node type: {$type}"),
     };
 }
 

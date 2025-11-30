@@ -36,6 +36,7 @@ function formatNode(array $node, array $path): mixed
         'removed' => "Property '{$propertyPath}' was removed",
         'changed' => "Property '{$propertyPath}' was updated. From " .
                      formatValue($node['oldValue']) . " to " . formatValue($node['newValue']),
+        default => throw new \Exception("Unknown node type: {$type}"),
     };
 }
 
