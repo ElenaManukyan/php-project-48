@@ -1,4 +1,4 @@
-# Gendiff [PHP edition]
+# 🔄 Gendiff — Configuration Files Difference Generator
 
 [![Actions Status](https://github.com/ElenaManukyan/php-project-48/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/ElenaManukyan/php-project-48/actions)
 [![PHP CI](https://github.com/ElenaManukyan/php-project-48/actions/workflows/ci.yml/badge.svg)](https://github.com/ElenaManukyan/php-project-48/actions/workflows/ci.yml)
@@ -6,11 +6,21 @@
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=ElenaManukyan_php-project-48&metric=coverage)](https://sonarcloud.io/summary/new_code?id=ElenaManukyan_php-project-48)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=ElenaManukyan_php-project-48&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=ElenaManukyan_php-project-48)
 
-## Описание
+## 📖 Description
 
-Gendiff — утилита для сравнения двух конфигурационных файлов и вывода различий между ними.
+**Gendiff** is a powerful CLI utility and library that compares two configuration files and shows the difference between them. It supports nested structures and multiple output formats.
 
-## Установка
+### ✨ Features
+
+- 📁 Supports **JSON** and **YAML** file formats
+- 🌳 Handles **nested structures** with unlimited depth
+- 🎨 Multiple output formats: `stylish`, `plain`, `json`
+- 🔧 Can be used as **CLI tool** or **PHP library**
+- ✅ Fully tested with PHPUnit
+
+---
+
+## 🚀 Installation
 
 ```bash
 git clone https://github.com/ElenaManukyan/php-project-48.git
@@ -18,37 +28,122 @@ cd php-project-48
 make install
 ```
 
-## Использование
+### 📋 Requirements
 
-### Как CLI-утилита
+- PHP >= 8.1
+- Composer
+
+---
+
+## 💻 Usage
+
+### As CLI Tool
 
 ```bash
+# Default format (stylish)
 ./gendiff file1.json file2.json
+
+# With specific format
+./gendiff --format plain file1.yml file2.yml
+./gendiff --format json file1.json file2.json
+
+# Help
+./gendiff -h
 ```
 
-### Как библиотека
+### As PHP Library
 
 ```php
 <?php
 
 use function Differ\Differ\genDiff;
 
+// Default format (stylish)
 $diff = genDiff($pathToFile1, $pathToFile2);
-print_r($diff);
+
+// With specific format
+$diff = genDiff($pathToFile1, $pathToFile2, 'plain');
+$diff = genDiff($pathToFile1, $pathToFile2, 'json');
+
+echo $diff;
 ```
 
-## Пример работы
+---
+
+## 🎨 Output Formats
+
+### Stylish (default)
+
+Tree-like format with visual markers for changes:
 
 ```
 {
-  - follow: false
-    host: hexlet.io
-  - proxy: 123.234.53.22
-  - timeout: 50
-  + timeout: 20
-  + verbose: true
+    common: {
+      + follow: false
+        setting1: Value 1
+      - setting2: 200
+      - setting3: true
+      + setting3: null
+    }
 }
 ```
+
+### Plain
+
+Human-readable text format:
+
+```
+Property 'common.follow' was added with value: false
+Property 'common.setting2' was removed
+Property 'common.setting3' was updated. From true to null
+```
+
+### JSON
+
+Structured format for programmatic use:
+
+```json
+[
+    {
+        "key": "common",
+        "type": "nested",
+        "children": [...]
+    }
+]
+```
+
+---
+
+## 🔍 Legend
+
+| Symbol | Meaning |
+|--------|---------|
+| `+` | Added in second file |
+| `-` | Removed from first file |
+| ` ` | Unchanged |
+
+---
+
+## 🧪 Development
+
+```bash
+# Run tests
+make test
+
+# Run linter
+make lint
+
+# Run tests with coverage
+make test-coverage
+```
+
+---
+
+## 📄 License
+
+MIT
+
+---
 
 ## Asciinema demo
 ### Comparison of flat files (JSON) + an example of the utility's capabilities
