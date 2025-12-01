@@ -41,14 +41,14 @@ make install
 
 ```bash
 # Default format (stylish)
-./gendiff file1.json file2.json
+./bin/gendiff file1.json file2.json
 
 # With specific format
-./gendiff --format plain file1.yml file2.yml
-./gendiff --format json file1.json file2.json
+./bin/gendiff --format plain file1.yml file2.yml
+./bin/gendiff --format json file1.json file2.json
 
 # Help
-./gendiff -h
+./bin/gendiff -h
 ```
 
 ### As PHP Library
