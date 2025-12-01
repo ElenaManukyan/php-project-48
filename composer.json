@@ -44,6 +44,6 @@
         "test-coverage": "XDEBUG_MODE=coverage phpunit --coverage-clover build/logs/clover.xml"
     },
     "bin": [
-        "gendiff"
+        "bin/gendiff"
     ]
 }

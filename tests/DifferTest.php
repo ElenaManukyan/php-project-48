@@ -17,28 +17,58 @@ class DifferTest extends TestCase
     private function getFixtureContent(string $filename): string
     {
         $content = file_get_contents($this->getFixturePath($filename));
-        return trim(str_replace("\r\n", "\n", $content));
+        return str_replace("\r\n", "\n", $content);
     }
 
-    #[DataProvider('diffProvider')]
-    public function testGenDiff(string $file1, string $file2, string $format, string $expected): void
-    {
-        $filePath1 = $this->getFixturePath($file1);
-        $filePath2 = $this->getFixturePath($file2);
-        $expectedContent = $this->getFixtureContent($expected);
-
-        $this->assertEquals($expectedContent, genDiff($filePath1, $filePath2, $format));
-    }
-
-    public static function diffProvider(): array
+    private function getFilePaths(string $extension): array
     {
         return [
-            'stylish json' => ['file1_nested.json', 'file2_nested.json', 'stylish', 'expected_nested.txt'],
-            'stylish yaml' => ['file1_nested.yml', 'file2_nested.yml', 'stylish', 'expected_nested.txt'],
-            'plain json' => ['file1_nested.json', 'file2_nested.json', 'plain', 'expected_plain.txt'],
-            'plain yaml' => ['file1_nested.yml', 'file2_nested.yml', 'plain', 'expected_plain.txt'],
-            'json json' => ['file1_nested.json', 'file2_nested.json', 'json', 'expected_json.json'],
-            'json yaml' => ['file1_nested.yml', 'file2_nested.yml', 'json', 'expected_json.json'],
+            $this->getFixturePath("file1_nested.{$extension}"),
+            $this->getFixturePath("file2_nested.{$extension}"),
         ];
+    }
+
+    public static function extensionProvider(): array
+    {
+        return [
+            'json files' => ['json'],
+            'yaml files' => ['yml'],
+        ];
+    }
+
+    #[DataProvider('extensionProvider')]
+    public function testStylishFormat(string $extension): void
+    {
+        [$file1, $file2] = $this->getFilePaths($extension);
+        $expected = $this->getFixtureContent('expected_nested.txt');
+
+        $this->assertEquals($expected, genDiff($file1, $file2, 'stylish'));
+    }
+
+    #[DataProvider('extensionProvider')]
+    public function testDefaultFormat(string $extension): void
+    {
+        [$file1, $file2] = $this->getFilePaths($extension);
+        $expected = $this->getFixtureContent('expected_nested.txt');
+
+        $this->assertEquals($expected, genDiff($file1, $file2));
+    }
+
+    #[DataProvider('extensionProvider')]
+    public function testPlainFormat(string $extension): void
+    {
+        [$file1, $file2] = $this->getFilePaths($extension);
+        $expected = $this->getFixtureContent('expected_plain.txt');
+
+        $this->assertEquals($expected, genDiff($file1, $file2, 'plain'));
+    }
+
+    #[DataProvider('extensionProvider')]
+    public function testJsonFormat(string $extension): void
+    {
+        [$file1, $file2] = $this->getFilePaths($extension);
+        $expected = $this->getFixtureContent('expected_json.json');
+
+        $this->assertEquals($expected, genDiff($file1, $file2, 'json'));
     }
 }

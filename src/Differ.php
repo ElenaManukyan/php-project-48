@@ -4,26 +4,18 @@ namespace Differ\Differ;
 
 use function Functional\sort;
 use function Differ\Parsers\parse;
-use function Differ\Parsers\getFormat;
 use function Differ\Formatters\format;
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $formatName = 'stylish'): string
 {
-    $absolutePath1 = getAbsolutePath($pathToFile1);
-    $absolutePath2 = getAbsolutePath($pathToFile2);
-
-    $content1 = file_get_contents($absolutePath1);
-    $content2 = file_get_contents($absolutePath2);
-
-    if ($content1 === false) {
-        throw new \Exception("Cannot read file: {$absolutePath1}");
-    }
-    if ($content2 === false) {
-        throw new \Exception("Cannot read file: {$absolutePath2}");
-    }
-
-    $format1 = getFormat($absolutePath1);
-    $format2 = getFormat($absolutePath2);
+    [
+        'content' => $content1,
+        'format' => $format1
+    ] = getFileData($pathToFile1);
+    [
+        'content' => $content2,
+        'format' => $format2
+    ] = getFileData($pathToFile2);
 
     $data1 = parse($content1, $format1);
     $data2 = parse($content2, $format2);
@@ -31,6 +23,24 @@ function genDiff(string $pathToFile1, string $pathToFile2, string $formatName = 
     $diff = buildDiff($data1, $data2);
 
     return format($diff, $formatName);
+}
+
+function getFileData(string $path): array
+{
+    $absolutePath = getAbsolutePath($path);
+
+    $content = file_get_contents($absolutePath);
+
+    if ($content === false) {
+        throw new \Exception("Cannot read file: {$absolutePath}");
+    }
+
+    $format = getFormat($absolutePath);
+
+    return [
+        'content' => $content,
+        'format' => $format
+    ];
 }
 
 function getAbsolutePath(string $path): string
@@ -55,18 +65,26 @@ function isAssociativeArray(mixed $value): bool
 function buildDiff(array $data1, array $data2): array
 {
     $allKeys = array_unique(array_merge(array_keys($data1), array_keys($data2)));
-    $sortedKeys = sort($allKeys, fn($a, $b) => strcmp($a, $b), false);
+    $sortedKeys = sort($allKeys, fn($a, $b) => strcmp($a, $b));
 
     return array_map(function ($key) use ($data1, $data2) {
         $inFirst = array_key_exists($key, $data1);
         $inSecond = array_key_exists($key, $data2);
 
         if ($inFirst && !$inSecond) {
-            return ['key' => $key, 'type' => 'removed', 'value' => $data1[$key]];
+            return [
+                'key' => $key,
+                'type' => 'removed',
+                'value' => $data1[$key]
+            ];
         }
 
         if (!$inFirst && $inSecond) {
-            return ['key' => $key, 'type' => 'added', 'value' => $data2[$key]];
+            return [
+                'key' => $key,
+                'type' => 'added',
+                'value' => $data2[$key]
+            ];
         }
 
         $value1 = $data1[$key];
@@ -81,7 +99,11 @@ function buildDiff(array $data1, array $data2): array
         }
 
         if ($value1 === $value2) {
-            return ['key' => $key, 'type' => 'unchanged', 'value' => $value1];
+            return [
+                'key' => $key,
+                'type' => 'unchanged',
+                'value' => $value1
+            ];
         }
 
         return [
@@ -91,4 +113,10 @@ function buildDiff(array $data1, array $data2): array
             'newValue' => $value2
         ];
     }, $sortedKeys);
+}
+
+function getFormat(string $filePath): string
+{
+    $extension = pathinfo($filePath, PATHINFO_EXTENSION);
+    return $extension;
 }

@@ -12,9 +12,3 @@ function parse(string $content, string $format): array
         default => throw new \Exception("Unknown format: {$format}")
     };
 }
-
-function getFormat(string $filePath): string
-{
-    $extension = pathinfo($filePath, PATHINFO_EXTENSION);
-    return $extension;
-}

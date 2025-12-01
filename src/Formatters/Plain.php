@@ -2,7 +2,7 @@
 
 namespace Differ\Formatters\Plain;
 
-function format(array $diff): string
+function render(array $diff): string
 {
     $lines = formatDiff($diff, []);
     return implode("\n", $lines);

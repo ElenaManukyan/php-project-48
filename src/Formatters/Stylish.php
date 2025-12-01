@@ -5,7 +5,7 @@ namespace Differ\Formatters\Stylish;
 const INDENT_SIZE = 4;
 const INDENT_SHIFT = 2;
 
-function format(array $diff): string
+function render(array $diff): string
 {
     return "{\n" . formatDiff($diff, 1) . "\n}";
 }
@@ -27,19 +27,21 @@ function formatNode(array $node, int $depth): string
     $indent = makeIndent($depth);
     $bracketIndent = makeIndent($depth, false);
 
+    $hasChildren = array_key_exists('children', $node) ? formatDiff($node['children'], $depth + 1) : '';
+    $justValue = array_key_exists('value', $node) ? formatValue($node['value'], $depth) : '';
+    $oldValue = array_key_exists('oldValue', $node) ? formatValue($node['oldValue'], $depth) : '';
+    $newValue = array_key_exists('newValue', $node) ? formatValue($node['newValue'], $depth) : '';
+
     return match ($type) {
-        'nested' => "{$indent}  {$key}: {\n" .
-                    formatDiff($node['children'], $depth + 1) .
-                    "\n{$bracketIndent}}",
+        'nested' => "{$indent}  {$key}: {\n{$hasChildren}\n{$bracketIndent}}",
 
-        'unchanged' => "{$indent}  {$key}: " . formatValue($node['value'], $depth),
+        'unchanged' => "{$indent}  {$key}: {$justValue}",
 
-        'added' => "{$indent}+ {$key}: " . formatValue($node['value'], $depth),
+        'added' => "{$indent}+ {$key}: {$justValue}",
 
-        'removed' => "{$indent}- {$key}: " . formatValue($node['value'], $depth),
+        'removed' => "{$indent}- {$key}: {$justValue}",
 
-        'changed' => "{$indent}- {$key}: " . formatValue($node['oldValue'], $depth) . "\n" .
-                     "{$indent}+ {$key}: " . formatValue($node['newValue'], $depth),
+        'changed' => "{$indent}- {$key}: {$oldValue}\n{$indent}+ {$key}: {$newValue}",
 
         default => throw new \Exception("Unknown node type: {$type}"),
     };
