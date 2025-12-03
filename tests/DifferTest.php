@@ -11,7 +11,9 @@ class DifferTest extends TestCase
 {
     private function getFixturePath(string $filename): string
     {
-        return __DIR__ . '/fixtures/' . $filename;
+        $currentPath = __DIR__;
+
+        return "{$currentPath}/fixtures/{$filename}";
     }
 
     private function getFilePaths(string $extension): array
