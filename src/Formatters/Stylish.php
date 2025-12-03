@@ -7,7 +7,9 @@ const INDENT_SHIFT = 2;
 
 function render(array $diff): string
 {
-    return "{\n" . formatDiff($diff, 1) . "\n}";
+    $formattedDiff = formatDiff($diff, 1);
+
+    return "{\n{$formattedDiff}\n}\n";
 }
 
 function formatDiff(array $diff, int $depth): string
@@ -84,5 +86,7 @@ function formatArrayValue(array $value, int $depth): string
         return "{$indent}{$key}: {$val}";
     }, $keys);
 
-    return "{\n" . implode("\n", $lines) . "\n{$bracketIndent}}";
+    $implodedLines = implode("\n", $lines);
+
+    return "{\n{$implodedLines}\n{$bracketIndent}}";
 }

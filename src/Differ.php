@@ -8,14 +8,8 @@ use function Differ\Formatters\format;
 
 function genDiff(string $pathToFile1, string $pathToFile2, string $formatName = 'stylish'): string
 {
-    [
-        'content' => $content1,
-        'format' => $format1
-    ] = getFileData($pathToFile1);
-    [
-        'content' => $content2,
-        'format' => $format2
-    ] = getFileData($pathToFile2);
+    [ 'content' => $content1, 'format' => $format1 ] = getFileData($pathToFile1);
+    [ 'content' => $content2, 'format' => $format2 ] = getFileData($pathToFile2);
 
     $data1 = parse($content1, $format1);
     $data2 = parse($content2, $format2);
@@ -37,10 +31,7 @@ function getFileData(string $path): array
 
     $format = getFormat($absolutePath);
 
-    return [
-        'content' => $content,
-        'format' => $format
-    ];
+    return [ 'content' => $content, 'format' => $format ];
 }
 
 function getAbsolutePath(string $path): string

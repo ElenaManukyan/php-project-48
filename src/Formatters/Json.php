@@ -10,5 +10,5 @@ function render(array $diff): string
         throw new \Exception("Failed to encode diff to JSON: " . json_last_error_msg());
     }
 
-    return $result;
+    return "{$result}\n";
 }

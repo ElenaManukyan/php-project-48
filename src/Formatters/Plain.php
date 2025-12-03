@@ -5,7 +5,9 @@ namespace Differ\Formatters\Plain;
 function render(array $diff): string
 {
     $lines = formatDiff($diff, []);
-    return implode("\n", $lines);
+    $implodedLines = implode("\n", $lines);
+
+    return "{$implodedLines}\n";
 }
 
 function formatDiff(array $diff, array $path): array

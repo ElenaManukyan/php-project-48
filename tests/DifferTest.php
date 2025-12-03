@@ -14,12 +14,6 @@ class DifferTest extends TestCase
         return __DIR__ . '/fixtures/' . $filename;
     }
 
-    private function getFixtureContent(string $filename): string
-    {
-        $content = file_get_contents($this->getFixturePath($filename));
-        return str_replace("\r\n", "\n", $content);
-    }
-
     private function getFilePaths(string $extension): array
     {
         return [
@@ -40,35 +34,43 @@ class DifferTest extends TestCase
     public function testStylishFormat(string $extension): void
     {
         [$file1, $file2] = $this->getFilePaths($extension);
-        $expected = $this->getFixtureContent('expected_nested.txt');
 
-        $this->assertEquals($expected, genDiff($file1, $file2, 'stylish'));
+        $this->assertStringEqualsFile(
+            $this->getFixturePath('expected_nested.txt'),
+            str_replace("\r\n", "\n", genDiff($file1, $file2))
+        );
     }
 
     #[DataProvider('extensionProvider')]
     public function testDefaultFormat(string $extension): void
     {
         [$file1, $file2] = $this->getFilePaths($extension);
-        $expected = $this->getFixtureContent('expected_nested.txt');
 
-        $this->assertEquals($expected, genDiff($file1, $file2));
+        $this->assertStringEqualsFile(
+            $this->getFixturePath('expected_nested.txt'),
+            str_replace("\r\n", "\n", genDiff($file1, $file2))
+        );
     }
 
     #[DataProvider('extensionProvider')]
     public function testPlainFormat(string $extension): void
     {
         [$file1, $file2] = $this->getFilePaths($extension);
-        $expected = $this->getFixtureContent('expected_plain.txt');
 
-        $this->assertEquals($expected, genDiff($file1, $file2, 'plain'));
+        $this->assertStringEqualsFile(
+            $this->getFixturePath('expected_plain.txt'),
+            str_replace("\r\n", "\n", genDiff($file1, $file2, 'plain'))
+        );
     }
 
     #[DataProvider('extensionProvider')]
     public function testJsonFormat(string $extension): void
     {
         [$file1, $file2] = $this->getFilePaths($extension);
-        $expected = $this->getFixtureContent('expected_json.json');
-
-        $this->assertEquals($expected, genDiff($file1, $file2, 'json'));
+        
+        $this->assertStringEqualsFile(
+            $this->getFixturePath('expected_json.json'),
+            str_replace("\r\n", "\n", genDiff($file1, $file2, 'json'))
+        );
     }
 }
