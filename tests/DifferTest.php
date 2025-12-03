@@ -67,7 +67,7 @@ class DifferTest extends TestCase
     public function testJsonFormat(string $extension): void
     {
         [$file1, $file2] = $this->getFilePaths($extension);
-        
+
         $this->assertStringEqualsFile(
             $this->getFixturePath('expected_json.json'),
             str_replace("\r\n", "\n", genDiff($file1, $file2, 'json'))
